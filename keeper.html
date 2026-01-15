@@ -37,29 +37,40 @@
   <div class="msg" id="msg"></div>
 
 <script>
-  /
-  const VALID = "SEED404";
+  const VALID = "SEED404"; // <-- exakt so
 
-  function saveContext() {
-    try {
-      localStorage.setItem("sanctum_reason", document.getElementById("reason").value);
-      localStorage.setItem("sanctum_satellite", document.getElementById("satellite").value.trim());
-    } catch (e) {}
+  const msg = document.getElementById("msg");
+
+  function say(t) {
+    msg.textContent = t;
   }
 
+  window.addEventListener("error", (e) => {
+    say("Script error: " + (e.message || "unknown"));
+  });
+
   document.getElementById("submit").addEventListener("click", () => {
-    const msg = document.getElementById("msg");
-    const entered = (document.getElementById("code").value || "").trim();
+    try {
+      const entered = (document.getElementById("code").value || "").trim();
 
-    saveContext();
+      if (!entered) {
+        say("No signal. Enter the tethercode.");
+        return;
+      }
 
-    if (entered === VALID) {
-      msg.textContent = "Code accepted. The Sanctum opens.";
-      window.location.href = "./access.html";
-    } else {
-      msg.textContent = "Signal rejected. The gate remains closed.";
+      if (entered === VALID) {
+        say("Code accepted. The Sanctum opens.");
+        window.location.href = "./access.html";
+      } else {
+        say("Signal rejected. The gate remains closed.");
+      }
+    } catch (err) {
+      say("Keeper malfunction: " + (err.message || err));
     }
   });
+
+  // Wenn du diese Zeile siehst, läuft JS sicher:
+  say("Keeper online. Present your tethercode.");
 </script>
 
 </body>
