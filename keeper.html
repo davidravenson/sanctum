@@ -50,8 +50,10 @@
 
   document.getElementById("submit").addEventListener("click", () => {
     try {
-      const entered = (document.getElementById("code").value || "").trim();
-
+      const entered = (document.getElementById("code").value || "")
+  .trim()
+  .replace(/\s+/g, "")
+  .toUpperCase();
       if (!entered) {
         say("No signal. Enter the tethercode.");
         return;
