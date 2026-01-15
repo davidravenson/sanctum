@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SANCTUM / KEEPER</title>
+  <style>
+    body{font-family:system-ui,sans-serif;max-width:720px;margin:0 auto;padding:24px;line-height:1.5}
+    .small{opacity:.75;font-size:.95rem}
+    input,select,textarea,button{width:100%;padding:12px;font-size:1rem;margin:8px 0 16px}
+    button{cursor:pointer}
+    .msg{margin-top:10px;min-height:1.2em}
+  </style>
+</head>
+<body>
+
+  <h1>THE KEEPER</h1>
+
+  <p><b>IO.</b> What brings you here?</p>
+  <select id="reason">
+    <option value="error">An error</option>
+    <option value="rave">A rave</option>
+    <option value="instagram">Instagram</option>
+    <option value="curiosity">Curiosity</option>
+    <option value="unknown">I don’t know</option>
+  </select>
+
+  <p><b>AHA.</b> You came from the satellite. What’s happening there?</p>
+  <textarea id="satellite" rows="2" placeholder="One sentence. Two, max."></textarea>
+
+  <p><b>ANYWAY.</b> Show me your tethercode. <i>No tethercode. No pass.</i></p>
+  <input id="code" type="password" placeholder="ENTER TETHERCODE" autocomplete="off" />
+
+  <button id="submit">SUBMIT CODE</button>
+  <p class="small">Hint: the code lives in the panels. Not here.</p>
+
+  <div class="msg" id="msg"></div>
+
+<script>
+  // Setze hier deinen echten Tethercode:
+  const VALID = "SEED//TETHER"; // <-- ändern, z.B. "SEED//0197" oder ähnlich
+
+  function saveContext() {
+    try {
+      localStorage.setItem("sanctum_reason", document.getElementById("reason").value);
+      localStorage.setItem("sanctum_satellite", document.getElementById("satellite").value.trim());
+    } catch (e) {}
+  }
+
+  document.getElementById("submit").addEventListener("click", () => {
+    const msg = document.getElementById("msg");
+    const entered = (document.getElementById("code").value || "").trim();
+
+    saveContext();
+
+    if (entered === VALID) {
+      msg.textContent = "Code accepted. The Sanctum opens.";
+      window.location.href = "./access.html";
+    } else {
+      msg.textContent = "Signal rejected. The gate remains closed.";
+    }
+  });
+</script>
+
+</body>
+</html>
